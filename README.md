@@ -223,7 +223,7 @@ and for parameters p > 0 and &lambda; > 0,
 In addition,
 
 * Use Weibull risk and multiply hazard by &gamma;, still Weibull
-* Use Weibull survival and diving time by &gamma;, still Weibull
+* Use Weibull survival and deviding time by &gamma;, still Weibull
 
 ## General hazard rate model
 
@@ -256,13 +256,13 @@ Then &lambda;<sub>0</sub>(t) contains J parameters, &lambda;<sub>1</sub>, ..., &
 
 ## Discrete time models
 
-Let T be discrete random variable that takes the values t<sub>1</sub> < t<sub>2</sub> < ... < with probability
+Let T be discrete random variable that takes the values t<sub>1</sub> < t<sub>2</sub> < ... with probability
 
-<img src="https://latex.codecogs.com/svg.latex?f(t_j)=f_j=Pr\{\T=t_j}"/>
+<img src="https://latex.codecogs.com/svg.latex?f(t_j)=f_j=Pr\{T=t_j\}"/>
 
 then
 
-<img src="https://latex.codecogs.com/svg.latex?S(t_j)=S_j=Pr\{T{\ge}t_j\}=\sum_{k=j}^{f_k}"/>
+<img src="https://latex.codecogs.com/svg.latex?S(t_j)=S_j=Pr\{T{\ge}t_j\}=\sum_{k=j}^{\infty}f_k"/>
 
 Hazard at time t<sub>j</sub> as the conditional probabiliry of dying at that time given that one has survived to that point:
 
@@ -270,7 +270,7 @@ Hazard at time t<sub>j</sub> as the conditional probabiliry of dying at that tim
 
 And
 
-<img src="https://latex.codecogs.com/svg.latex?\S_j=(1-\lambda_1)...(1-\lambda_{j-1})"/>
+<img src="https://latex.codecogs.com/svg.latex?S_j=(1-\lambda_1)\cdot(1-\lambda_2)...(1-\lambda_{j-1})"/>
 
 ## Discrete survival and logistic regression
 
