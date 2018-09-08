@@ -151,7 +151,7 @@ Then the log-likelihood function could be rewrite as,
 
 From M.L.E
 
-<img src="https://latex.codecogs.com/svg.latex?\hat{\lambda}=\frac{D}{T},\hat{var}(\hat{\lambda})=\frac{D}{T^2}"/>
+<img src="https://latex.codecogs.com/svg.latex?\hat{\lambda}=\frac{D}{T},\widehat{var}(\hat{\lambda})=\frac{D}{T^2}"/>
 
 ## Accelerated life model
 
@@ -296,7 +296,7 @@ n<sub>i</sub> is the number of individuals known to survived at t<sub>i</sub>
 * Kaplan-Meier is limited to estimate survival adjusted for covariates. Parametric survival models, like Cox proportional hazard model, is useful in this scenario
 * Greenwood's formula can be used to estimate the variance
 
-    <img src="https://latex.codecogs.com/svg.latex?\hat{var}(\hat{S}(t))=\hat{S}(t)^2\sum_{i:t_i{\le}t}\frac{d_i}{n_i(n_i-d_i)}"/>
+    <img src="https://latex.codecogs.com/svg.latex?\hat{var}(\hat{S}(t))=\widehat{S}(t)^2\sum_{i:t_i{\le}t}\frac{d_i}{n_i(n_i-d_i)}"/>
 
 ## Log-rank test (Mantel-Cox test)
 
@@ -312,8 +312,16 @@ O<sub>j</sub> = O<sub>1j</sub> + O<sub>2j</sub>, observed number of events at ti
 
 <img src="https://latex.codecogs.com/svg.latex?V_j=\frac{O_j(N_{1j}/N_j)(1-N_{1j}/N_j)(N_j-O_j)}{N_{j-1}}"/>, variance
 
-* logrank statistic
+* Logrank statistic
 
-<img src="https://latex.codecogs.com/svg.latex?V_j=\frac{O_j(N_{1j}/N_j)(1-N_{1j}/N_j)(N_j-O_j)}{N_{j-1}}"/>, variance
+<img src="https://latex.codecogs.com/svg.latex?Z=\frac{\sum_{j=1}^{J}(O_{1j}-E_{1j})^d}{\sqrt{\sum_{j=1}^{J}V_j}}\xrightarrow{d}N(0,1)"/>
 
+* Logrank-statistic approximately has a chi-squared distribution with one degree of freedom, and can calculate the corresponding p-value using chi-squared distribution
 
+## Tree-structured Survival models
+
+Similar to decision trees and random forest.
+
+* The Cox PH regression model is a linear model similar to linear regression and logistic regression
+* Tree structured survival models, including survival random forest could give more accurate estimates when non-linearity is presented
+* Testing both types is a good strategy.
