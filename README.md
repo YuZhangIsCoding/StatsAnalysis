@@ -283,3 +283,37 @@ which gives
 <img src="https://latex.codecogs.com/svg.latex?\alpha_j=\textrm{logit}\lambda_0(t_j)"/> is the logit of the baseline hazard
 
 The likelihood function for discrete-time survival model under non-informative censoring coincides with teh binomial likelihood that would be obtained by treating the death indicator as independent Bernoulli or binomial.
+
+## Kaplan-Meier plot (product limit estimator)
+
+<img src="https://latex.codecogs.com/svg.latex?\hat{S}(t)=\prod_{i:t_i<t}(1-\frac{d_i}{n_i})"/>
+
+d<sub>i</sub> is the number of events at t<sub>i</sub>
+
+n<sub>i</sub> is the number of individuals known to survived at t<sub>i</sub>
+
+* Advantage over Naive estimator: multiply terms with censoring time smaller than t
+* Kaplan-Meier is limited to estimate survival adjusted for covariates. Parametric survival models, like Cox proportional hazard model, is useful in this scenario
+* Greenwood's formula can be used to estimate the variance
+
+    <img src="https://latex.codecogs.com/svg.latex?\hat{var}(\hat{S}(t))=\hat{S}(t)^2\sum_{i:t_i{\le}t}\frac{d_i}{n_i(n_i-d_i)}"/>
+
+## Log-rank test (Mantel-Cox test)
+
+The logrank test is a hypothesis test to compare the survival distributions of two samples
+
+Let j = 1, 2, ..., J be the distinct time of observed events
+
+N<sub>j</sub> = N<sub>1j</sub> + N<sub>2j</sub>, the number of subjects at risk right before j
+
+O<sub>j</sub> = O<sub>1j</sub> + O<sub>2j</sub>, observed number of events at time j
+
+<img src="https://latex.codecogs.com/svg.latex?E_{1j}=\frac{O_j}{N_j}N_{1j}"/>, expected value
+
+<img src="https://latex.codecogs.com/svg.latex?V_j=\frac{O_j(N_{1j}/N_j)(1-N_{1j}/N_j)(N_j-O_j)}{N_{j-1}}"/>, variance
+
+* logrank statistic
+
+<img src="https://latex.codecogs.com/svg.latex?V_j=\frac{O_j(N_{1j}/N_j)(1-N_{1j}/N_j)(N_j-O_j)}{N_{j-1}}"/>, variance
+
+
