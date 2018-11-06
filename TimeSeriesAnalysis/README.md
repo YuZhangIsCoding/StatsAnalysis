@@ -164,9 +164,9 @@ Instead of weighing observations equally, Exponential Smoothing assigns **expone
 
         To initialize the HW method, we need **at least** one complete season's data to determine initial estimates of the seasonal indices I<sub>t-L</sub>. And to estimate the trend factor from one period to the next, it is advisable to use two complete seasons; that is 2L periods.
 
-        The general formula to estimate the initial trend is given by
+        * The general formula to estimate the initial trend is given by
 
-        <img src="https://latex.codecogs.com/svg.latex?b=\frac{1}{L}\bigg(\frac{y_{L+1}-y_1}{L}+\frac{y_{L+2}-y_2}{L}+\dots+\frac{y_{L+L}-y_L}{L}\bigg)"/>
+            <img src="https://latex.codecogs.com/svg.latex?b=\frac{1}{L}\bigg(\frac{y_{L+1}-y_1}{L}+\frac{y_{L+2}-y_2}{L}+\dots+\frac{y_{L+L}-y_L}{L}\bigg)"/>
 
 
         * Seasonal Indices: 6 years with 4 quarters per year for example
