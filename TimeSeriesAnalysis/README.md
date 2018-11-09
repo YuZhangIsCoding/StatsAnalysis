@@ -2,6 +2,8 @@
 
 This is a repo constructed for the study of Time Series Analysis. Thanks to [NIST](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm) and some other online sources. All theories parts will be put in this markdown file, and some other examples will be illustrated in the jupyter notebook.
 
+
+        An autoregressive model is simply a linear regression of the current value of the series against one or more prior values of the series. The value of *p* is called the order of the AR model.
 ## Time Series Analysis
     
 * Data points taken over time may have an interval structure (like autocorrelation, trend or seasonal variation)
@@ -194,3 +196,112 @@ Instead of weighing observations equally, Exponential Smoothing assigns **expone
             <img src="https://latex.codecogs.com/svg.latex?I_4=(y_{14}/A_1+y_{24}/A_2+y_{34}/A_3+y_{44}/A_4+y_{54}/A_5+y_{64}/A_6)"/>
 
     **This method is best for data with trend and seasonality that does not increase over time. It results in a curved forecast that shows the seasonal changes in the data**
+
+## Univariate Time Series Models
+
+The term "univariate time series" refers to a time series that consists of single (scalar) observations recorded sequentially over equal time increments.
+
+    * Stationarity
+    
+        A stationary process has the property that the mean, variance and autocorrelation structure do not change over time. In this context, stationarity means a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations (seasonality)
+
+        Stationarity can usually be determined from a [run sequence plot](https://en.wikipedia.org/wiki/Run_chart)
+
+        If the time series is not stationary, transformation can be done in following techniques:
+
+        1. Difference the data. Given Z<sub>t</sub>, new series can be created:
+        
+            Y<sub>i</sub> = Z<sub>i</sub>-Z<sub>i-1</sub>
+
+            The differenced data will contain one less point than the original data. Although you can difference the data more than once, one difference is usually sufficient
+
+        1. If the data contains a trend, we can fit some type of curve to the data and then model the residuals from that fit. A simple fit, such as a straight line, is typically used, since the purpose is to remove long term trend.
+
+        1. For non-constant variance, taking the logarithm or square root of the series may stabilized the variance. For negative data, add a suitable constant to make all the data positive before transformation. This constant should be subtracted from the model when predicting.
+
+    * Seasonality
+
+        Seasonality means periodic fluctuations, which is quite common in economic time series, and less common in engineering and scientific data.   
+
+        Following techniques can be used to detect seasonality:
+
+        1. A run sequence plot will often show seasonality
+
+        1. A seasonal subseries plot is a specialized technique for showing seasonality.
+
+            * The seasonal subseries plot is only useful if the period of the seasonality is already known.
+            * If the period is not known, an autocorrelation plot or spectral plot can be used to determine it.
+            * If there is a large number of observations, then a box plot may be preferable
+            * Sometimes, the series will need to be detrended before generating the plot.
+            * Could answer questions like: is there a seasonal pattern, what's the nature of seasonality, is there a within-group pattern, are there outliers, etc
+
+        1. Multiple box plots can be used as an alternative to the seasonal subseries plot to detect seasonality
+
+        1. The [autocorrelation plot](https://www.itl.nist.gov/div898/handbook/eda/section3/autocopl.htm) can help identify seasonality
+
+            * If there is significant seasonality, the autocorrelation plot should show spikes at lags equal to the period
+
+            ***Need a plot to explain this***
+
+            * The autocorrelation plot could also answer questions like: are the data random, is the observed time series white noise, sinusoidal, autoregressive, etc.
+
+    * Common Approaches to Univariate Time Series
+
+        1. Decompose the time series into a trend, seasonal, and residual component.
+            * Triple exponential smoothing
+            * Seasonal LOESS (locally estimated scatterplot smoothing)
+
+        1. Analyze the series in the frequency domain. The spectral plot is the primary tool for the frequency analysis of time series.
+        
+        1. Autoregressive (AR) model is a common approach for modeling univariate time series.
+
+        1. Another common approach for modeling univariate time series is the moving average (MA) model
+
+    * [Autoregressive model](https://en.wikipedia.org/wiki/Autoregressive_model)
+
+        <img src="https://latex.codecogs.com/svg.latex?X_t=\delta+\phi_1X_{t-1}+\phi_2X_{t-2}+\dots+\phi_pX_{t-p}+A_t"/>
+
+        where *X<sub>t</sub>* is the time series, *A<sub>t</sub>* is white noise, and 
+
+        <img src="https://latex.codecogs.com/svg.latex?\delta=\bigg(1-\sum\limits_{i=1}^{p}\phi_i\bigg)\mu"/>
+
+        An autoregressive model is simply a linear regression of the current value of the series against one or more prior values of the series. The value of *p* is called the order of the AR model.
+        
+    * Moving average model
+
+        <img src="https://latex.codecogs.com/svg.latex?X_t=\mu+A_t-\theta_1A_{t-1}-\theta_2A_{t-2}-\dots-\theta_qA_{t-q}"/>
+ 
+        where *A<sub>t-i</sub>* are white noise terms, and &theta;<sub>1</sub>, ..., &theta;<sub>q</sub> are the parameters of the model. The value of *q* is called the order of the MA model.
+
+        A moving average model is conceptually a linear regression of the current value of the series against the white noise or random shocks of one or more prior values of the series. The random shocks at each point are assumed to come from the same distribution, typically a normal distribution, with location at zero and constant scale. The distinction in this model is that these random shocks are propogated to future values of the time series. Fitting the MA estimates is more complicated than with AR models because the error terms are not observable. This means that iterative non-linear fitting procedures need to be used in place of linear least squares. MA models also have a less obvious interpretation than AR models.
+
+        Sometimes the autocorrelation function and partial autocorrelation function will suggest that a MA model would be a better choice and sometimes both AR and MA terms should be used in the same model, which gives Box-Jenkins model.
+
+    * (Box-Jenkins Model)[https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins_method)
+
+        A combination of autoregressive model and moving average model.
+
+        <img src="https://latex.codecogs.com/svg.latex?X_t=\delta+\phi_1X_{t-1}+\phi_2X_{t-2}+\dots+\phi_pX_{t-p}+A_t-\theta_1A_{t-1}-\theta_2A_{t-2}-\dots-\theta_qA_{t-q}-q"/>
+
+        Some notes:
+
+        * The Box-Jenkins model assumes that the time series is stationary. And it recommend differencing non-stationary series one or more times to achieve stationary. Doing so produces an ARIMA model, with the "I" standing for "Integrated".
+        * Some formulation transform the serier by subtracting the mean, which yields a series with a mean of zero.
+        * This model can be extended to include seasonal autoregressive and seasonal moving average terms.
+        * The most general model includes difference operators, autoregressive terms, moving average terms, seasonal difference operators, seasonal autoregressive terms, and seasonal moving avarage terms.
+
+        Some remarks:
+        
+        * Box-Jenkins models are quite flexible due to the inclusion of both autoregressive and moving average terms.
+        * Chatfield recommends decomposition methods for series in which the trend and seasonal components are dominant.
+        * Building good ARIMA models generally requires more experience than commonly used statistical methods such as regression.
+        * **effective fitting of Box-Jenkins models requires at least a moderately long series. Chatfield recommends at least 50 observations. Many others would recommend at least 100 observations.**
+
+        The estimation of parameters for Box-Jenkins models is a quite complicated non-linear estimation problem. The main approaches are non-linear least squares and maximum likelihood estimation. Maximum likelihood estimation is generally the preferred technique.
+
+
+## Unevenly-spaced time series
+
+    Python package traces
+
+## [Loess and Seasonoal loess](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd144.htm)
