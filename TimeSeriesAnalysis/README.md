@@ -2,8 +2,6 @@
 
 This is a repo constructed for the study of Time Series Analysis. Thanks to [NIST](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm) and some other online sources. All theories parts will be put in this markdown file, and some other examples will be illustrated in the jupyter notebook.
 
-
-        An autoregressive model is simply a linear regression of the current value of the series against one or more prior values of the series. The value of *p* is called the order of the AR model.
 ## Time Series Analysis
     
 * Data points taken over time may have an interval structure (like autocorrelation, trend or seasonal variation)
@@ -201,13 +199,13 @@ Instead of weighing observations equally, Exponential Smoothing assigns **expone
 
 The term "univariate time series" refers to a time series that consists of single (scalar) observations recorded sequentially over equal time increments.
 
-    * Stationarity
+* Stationarity
     
-        A stationary process has the property that the mean, variance and autocorrelation structure do not change over time. In this context, stationarity means a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations (seasonality)
+    A stationary process has the property that the mean, variance and autocorrelation structure do not change over time. In this context, stationarity means a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations (seasonality)
 
-        Stationarity can usually be determined from a [run sequence plot](https://en.wikipedia.org/wiki/Run_chart)
+    Stationarity can usually be determined from a [run sequence plot](https://en.wikipedia.org/wiki/Run_chart)
 
-        If the time series is not stationary, transformation can be done in following techniques:
+    If the time series is not stationary, transformation can be done in following techniques:
 
         1. Difference the data. Given Z<sub>t</sub>, new series can be created:
         
