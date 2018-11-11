@@ -254,6 +254,8 @@ The term "univariate time series" refers to a time series that consists of singl
     1. Autoregressive (AR) model is a common approach for modeling univariate time series.
 
     1. Another common approach for modeling univariate time series is the moving average (MA) model
+    
+    1. Combine both autoregressive and moving average model into ARMA or ARIMA model.
 
 * [Autoregressive model](https://en.wikipedia.org/wiki/Autoregressive_model)
 
@@ -264,18 +266,41 @@ The term "univariate time series" refers to a time series that consists of singl
     <img src="https://latex.codecogs.com/svg.latex?\delta=\bigg(1-\sum\limits_{i=1}^{p}\phi_i\bigg)\mu"/>
 
     An autoregressive model is simply a linear regression of the current value of the series against one or more prior values of the series. The value of *p* is called the order of the AR model.
+    
+    An autoregressive model can thus be viewed as the output of an all-pole infinite impulse response filter whose input is white noise. And a one-time shock affects values of the evolving variable infinitely far into the future. Because each shock affects X values infinitely far into the future from when they occur, any given value X<sub>t</sub> is affected by shocks occurring infinitely far into the past.
+    
+    * Choosing the maximum lag
+    
+        The partial autocorrelation of an AR(p) process is zero at lag p + 1 and greater, so the appropriate maximum lag is the one beyond which the partial autocorrelations are all zero.
         
-* Moving average model
+    * Calculation of AR parameters
+        
+        Ordinary lease squares procedure or method of moments (through Yule-Walker equations).
+        
+* [Moving average model](https://en.wikipedia.org/wiki/Moving-average_model#Definition)
 
     <img src="https://latex.codecogs.com/svg.latex?X_t=\mu+A_t-\theta_1A_{t-1}-\theta_2A_{t-2}-\dots-\theta_qA_{t-q}"/>
  
     where *A<sub>t-i</sub>* are white noise terms, and &theta;<sub>1</sub>, ..., &theta;<sub>q</sub> are the parameters of the model. The value of *q* is called the order of the MA model.
 
     A moving average model is conceptually a linear regression of the current value of the series against the white noise or random shocks of one or more prior values of the series. The random shocks at each point are assumed to come from the same distribution, typically a normal distribution, with location at zero and constant scale. The distinction in this model is that these random shocks are propogated to future values of the time series. Fitting the MA estimates is more complicated than with AR models because the error terms are not observable. This means that iterative non-linear fitting procedures need to be used in place of linear least squares. MA models also have a less obvious interpretation than AR models.
+    
+    The moving-average model is essentially a finite impulse response filter applied to white noise. Two main distinctions from autoregressive model:
+        
+    1. The random shocks are propagated to future values of time series directly.
+    1. In the MA model a shock affects X values only for the current period and q periods into the future; in contrast, in the AR model a shock affects X values infinitely far into the future
 
+    * Fitting the model
+    
+        Fitting the MA estimates is more complicated than it is in autoregressive models (AR models), because the lagged error terms are not observable. This means that iterative non-linear fitting procedures need to be used in place of linear least squares.
+        
+        The autocorrelation function (ACF) of an MA(q) process is zero at lag q + 1 and greater. Therefore, we determine the appropriate maximum lag for the estimation by examining the sample autocorrelation function to see where it becomes insignificantly different from zero for all lags beyond a certain lag, which is designated as the maximum lag q.
+    
     Sometimes the autocorrelation function and partial autocorrelation function will suggest that a MA model would be a better choice and sometimes both AR and MA terms should be used in the same model, which gives Box-Jenkins model.
+    
+    **Note**: the moving-average model should not be confused with aforementioned moving average method.
 
-* (Box-Jenkins Model)[https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins_method)
+* [Box-Jenkins Model](https://en.wikipedia.org/wiki/Box%E2%80%93Jenkins_method)
 
     A combination of autoregressive model and moving average model.
 
