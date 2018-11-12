@@ -267,7 +267,7 @@ The term "univariate time series" refers to a time series that consists of singl
 
     An autoregressive model is simply a linear regression of the current value of the series against one or more prior values of the series. The value of *p* is called the order of the AR model.
     
-    An autoregressive model can thus be viewed as the output of an all-pole infinite impulse response filter whose input is white noise. And a one-time shock affects values of the evolving variable infinitely far into the future. Because each shock affects X values infinitely far into the future from when they occur, any given value X<sub>t</sub> is affected by shocks occurring infinitely far into the past.
+    An autoregressive model can thus be viewed as the output of an all-pole infinite impulse response filter whose input is white noise. And a one-time shock affects values of the evolving variable infinitely far into the future. Because each shock affects X values infinitely far into the future from when they occur, any given value X<sub>t</sub> is affected by shocks occurring infinitely far into the past. Thus, the autoregressive model is not always stationary as it may contain a unit root.
     
     * Choosing the maximum lag
     
