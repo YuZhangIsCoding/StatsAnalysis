@@ -305,6 +305,55 @@ The term "univariate time series" refers to a time series that consists of singl
     A combination of autoregressive model and moving average model.
 
     <img src="https://latex.codecogs.com/svg.latex?X_t=\delta+\phi_1X_{t-1}+\phi_2X_{t-2}+\dots+\phi_pX_{t-p}+A_t-\theta_1A_{t-1}-\theta_2A_{t-2}-\dots-\theta_qA_{t-q}-q"/>
+    
+    The model uses an iterative three-stage modeling approach
+        
+    1. Model identification and model selection:
+            
+        * Making sure that variables are stationary, identifying seasonality in the dependent series (seasonally differencing it if necessary), and use plots of autocorrelation and partial autocorrelation functions of dependent time series to decide which autoregressive or moving average component should be used.
+            
+        * Stationarity can be assessed from a run sequence plot. It can also be detected from an autocorrelation plot. Specifically, non-stationarity is often indicated by an autocorrelation plot with very slow decay.
+            
+        * Identify p and q by [Akaike infomation criterion (AIC)](https://en.wikipedia.org/wiki/Akaike_information_criterion) or the autocorrelation plot and the partial autocorrelation plot.
+            
+            AIC deals with the trade-off between the goodness of fit of the model and the simplicity of the model, by estimating the infomation lost.
+            
+            The sample autocorrelation plot and partial autocorrelation plot are compared to the theoretical behavior when the order is known. Specifically, for an AR(1) process, the autocorrelation function should have an exponentially decreasing appearance. However, higher-order AR processes are often a mixture of exponentially decreasing and damped sinusoidal components. And thus the partial autocorrelation plot is needed. And by placing a 95% confidence interval, we can examine the sample partial autocorrelation function to see if there is evidence of a departure from zero. If software does not generate confidence interval, it is approximately <img src="https://latex.codecogs.com/svg.latex?\pm2/\sqrt{N}"/>, with *N* donoting the sample size.
+            
+            The autocorrelation function of a MA(q) process becomes zero at lag q+1 and greater, so we examine the sample autocorrelation function to see where it essentially becomes zero.
+            
+            The following table summarizes hwo one can use autocorrelation function for model identification
+            
+            |Shape|Indicated Model|
+            |-|-|
+            |Exponential, decaying to zero|AR; use PACF to identify the order of the autoregressive model|
+            |Alternating positive adn negative, decaying to zero|AR; use PACF to identify the order of the autoregressive model|
+            |One or more spikes, rest are essentially zero|MA, order identified by where plot becomes zero|
+            |Decay, starting after a few lags|ARMA|
+            |All zero or close to zero|Data are essentially random|
+            |High values at fixed intervals|Include seasonal autoregressive term|
+            |No decay to zero|Series is not stationary|
+            
+            Hyndman & Athanasopoulos suggest the following:
+            
+            * The data may follow an ARIMA(p, d, 0) model if the ACF and PACF of the differenced data show the following patterns:
+                
+                ACF exponentially decaying or sinusoidal
+                
+                Significant spike at lag in PACF, but none beyond lag p
+            * The data may follow an ARIMA(0, d, q) model:
+            
+                PACF is exponentially decaying or sinusoidal
+                
+                Significant spike at lag q in ACF, but none beyond lag q
+            
+    1. Parameter estimation.
+        
+        Most common methods use maximum likelihood estimation or non-linear least-squares estimation
+        
+    1. Model checking 
+        
+        Test whether the estimated model conforms to the specifications of a stationary univariate process. Plot the mean and variance of residuals over time and performing a [Ljung-Box test](https://en.wikipedia.org/wiki/Ljung%E2%80%93Box_test#Box-Pierce_test) or plotting autocorrelation and partial autocorrelation of the residuals are helpful to identify misspecification. If the estimation is inadequate, we have to return to step one and attempt to build a linear model.
 
     Some notes:
 
@@ -322,6 +371,34 @@ The term "univariate time series" refers to a time series that consists of singl
 
     The estimation of parameters for Box-Jenkins models is a quite complicated non-linear estimation problem. The main approaches are non-linear least squares and maximum likelihood estimation. Maximum likelihood estimation is generally the preferred technique.
 
+## Multivariate Time Series Models
+
+The multivariate form of the Box-Jenkins univariate models is sometimes called the AutoRegressive Moving Average Vector (ARMAV) model, or simply ARMA process.
+
+The ARMAV mdodel for a stationary multivariate time series, with a zero mean vector, represented by
+
+<img src="http://latex.codecogs.com/svg.latex?x_t=(x_{1t},x_{2t},\dots,x_{nt})^T,\quad-\infty%3Ct%3C\infty"/>
+
+is of the form
+
+<img src="http://latex.codecogs.com/svg.latex?x_t=\phi_1x_{t-1}+\dots+\phi_px_{t-p}+\alpha_t-\theta_1\alpha_{t-1}-\dots-\theta_q\alpha_{t-q}"/>
+
+where 
+* x<sub>t</sub> and &alpha;<sub>t</sub> are n &times; 1 column vectors with &alpha;<sub>t</sub> representing multivariate white noise,
+* &phi;<sub>k</sub> = {&phi;<sub>k,jj</sub>}, k = 1, 2, ..., p
+
+    &theta;<sub>k</sub> = {&theta;<sub>k,jj</sub>}, k = 1, 2, ..., p
+    
+    are n &times; n matrices for autoregressive and moving average parameters,
+    
+* E[a<sub>t</sub>] = 0
+* E[a<sub>t</sub>a'<sub>t-k</sub>] = 0, k &ne; 0
+
+    E[a<sub>t</sub>a'<sub>t-k</sub>] = &sum;<sub>&alpha;</sub>, k = 0
+    
+    where &sum;<sub>&alpha;</sub> is the dispersion or covariance matrix of &alpha;<sub>t</sub>
+
+The estimation of the matrix parameters and covariance matrix is complicated and very difficult without computer software. The estimation of the Moving Average matrices is especially an ordeal. If we opt to ignore the MA component(s) we are left with the [ARV](https://en.wikipedia.org/wiki/Vector_autoregression) model.
 
 ## Unevenly-spaced time series
 
