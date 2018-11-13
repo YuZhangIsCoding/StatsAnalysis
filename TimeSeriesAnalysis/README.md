@@ -402,6 +402,10 @@ The estimation of the matrix parameters and covariance matrix is complicated and
 
 ## Unevenly-spaced time series
 
-Python package traces
+An unevenly (or unequally or irregularly) spaced time series is a sequence of observation time and value pairs (tn, Xn) with strictly increasing observation times
+
+A common approach to analyzing unevenly spaced time series is to transform the data into equally spaced observations using some form of interpolation - most often linear - and then apply existing methods for equally spaced data. However, transforming data in such a way can introduce a number of significant and hard to quantify biases, especially if the spacing of observations is highly irregular.
+
+Python package [Traces](https://traces.readthedocs.io/en/master/) together with Pandas provide some functionalities for the analysis of unevenly spaced time series in their unaltered form.
 
 ## [Loess and Seasonoal loess](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd144.htm)
