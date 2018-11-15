@@ -238,10 +238,9 @@ The term "univariate time series" refers to a time series that consists of singl
     1. The [autocorrelation plot](https://www.itl.nist.gov/div898/handbook/eda/section3/autocopl.htm) can help identify seasonality
 
         * If there is significant seasonality, the autocorrelation plot should show spikes at lags equal to the period
-
-        ***Need a plot to explain this***
-
         * The autocorrelation plot could also answer questions like: are the data random, is the observed time series white noise, sinusoidal, autoregressive, etc.
+        
+        **Note**: more about autocorrelation can be found on [this repo](https://github.com/YuZhangIsCoding/improvised/tree/master/AutoCorrelation).
 
 * Common Approaches to Univariate Time Series
 
@@ -431,7 +430,7 @@ The smoothing parameter &alpha; is the fraction of the total number *n* of data 
 
     The traditional weight function used for LOESS is the tri-cube weight function
 
-    <img src="http:www.codecogs.com/svg.latex?w(x)=\big(1-|d|^3\big)^3"/>
+    <img src="http://www.codecogs.com/svg.latex?w(x)=\big(1-|d|^3\big)^3"/>
 
     where d is the distance of a given data point from the point on the curve being fitted, scaled to lie in the range between 0 to 1.
 
