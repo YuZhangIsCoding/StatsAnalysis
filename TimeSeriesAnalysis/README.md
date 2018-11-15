@@ -106,68 +106,103 @@ Instead of weighing observations equally, Exponential Smoothing assigns **expone
 
     The single exponential smoothing could be improved by the introduction of a second equation with a second constant &gamma;, which must be chosen in conjuction with &alpha;.
 
-    <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}y_{t}+(1-\alpha)(S_{t-1}+b_{t-1})"/>&nbsp;
-
-    <img src="https://latex.codecogs.com/svg.latex?b_{t}={\gamma}(S_t-S_{t-1})+(1-\gamma)b_{t-1}"/>
-
-    The first smoothing equation adjusts S<sub>t</sub> directly for the trend of the previous period, b<sub>t-1</sub>, by adding it to the last smoothed value, S<sub>t-1</sub>. This helps to eliminate the lag and brings S<sub>t</sub> to the appropriate base of the current value.
-
-    The second smoothing equation then updates the trend, which is expressed as the difference between the last two values. This equation is similar to the basic form of single smoothing, but here applied to the updating of the trend.
-
-    * Initial values:
-        
-        S<sub>1</sub> is in general set to y<sub>1</sub>.
-
-        There are three suggestions for b<sub>1</sub>:
-
-        1. b1 = y2-y1
-        2. b1 = ((y2-y1)+(y3-y2)+(y4-y3))/3
-        3. b1 = (yn-y1)/(n-1) 
-
-        The values for &alpha; and &gamma; can be obtained via non-linear optimization techniques, such as the Marqartdt Algorithm.
-
-    * Forecasting with Double Exponential Smoothing(LASP)
-
-        The one-period-ahead forecast is given by:
-
-        <img src="https://latex.codecogs.com/svg.latex?F_{t+1}=S_t+b_t"/>
-
-        The m-periods-ahead forecast is given by:
+    The method supports trends that change in different ways: an **additive** and a **multiplicative** depending on whether the trend is linear or exponential repectively.
     
-        <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=S_t+mb_t"/>
+    * Additive trend, also know as *Holt's linear trend model*: double exponential with a linear trend
+    
+        <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}y_{t}+(1-\alpha)(S_{t-1}+b_{t-1})"/>&nbsp;
 
-    * Compare with Linear Regression
+        <img src="https://latex.codecogs.com/svg.latex?b_{t}={\gamma}(S_t-S_{t-1})+(1-\gamma)b_{t-1}"/>
 
-        If it is desired to portray the growth process in a more **aggressive** manner, then one selects double smoothing. Otherwise, regression may be preferable. It should be noted that in linear regression "time" functions as the independent variable.
+        The first smoothing equation adjusts S<sub>t</sub> directly for the trend of the previous period, b<sub>t-1</sub>, by adding it to the last smoothed value, S<sub>t-1</sub>. This helps to eliminate the lag and brings S<sub>t</sub> to the appropriate base of the current value.
 
-* Damped trend smoothing (not covered in NIST) contains &alpha;, &beta; and &gamma;
+        The second smoothing equation then updates the trend, which is expressed as the difference between the last two values. This equation is similar to the basic form of single smoothing, but here applied to the updating of the trend.
 
-* Triple Exponential Smoothing
+        * Initial values:
+        
+            S<sub>1</sub> is in general set to y<sub>1</sub>.
+
+            There are three suggestions for b<sub>1</sub>:
+
+            1. b1 = y2-y1
+            2. b1 = ((y2-y1)+(y3-y2)+(y4-y3))/3
+            3. b1 = (yn-y1)/(n-1) 
+
+            The values for &alpha; and &gamma; can be obtained via non-linear optimization techniques, such as the Marqartdt Algorithm.
+
+        * Forecasting with Double Exponential Smoothing(LASP)
+
+            The one-period-ahead forecast is given by:
+
+            <img src="https://latex.codecogs.com/svg.latex?F_{t+1}=S_t+b_t"/>
+
+            The m-periods-ahead forecast is given by:
+    
+            <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=S_t+mb_t"/>
+
+        * Compare with Linear Regression
+
+            If it is desired to portray the growth process in a more **aggressive** manner, then one selects double smoothing. Otherwise, regression may be preferable. It should be noted that in linear regression "time" functions as the independent variable.
+
+    * Multiplicative trend
+    
+        <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}y_{t}+(1-\alpha)(S_{t-1}R_{t-1})"/>&nbsp;
+
+        <img src="https://latex.codecogs.com/svg.latex?R_{t}={\gamma}(S_t/S_{t-1})+(1-\gamma)R_{t-1}"/>
+
+        The method can be described as modelling the trend in a multiplicative way because the forecasts are formed from the product of the level and growth rate. A logarithmic transformation is sometimes used to convert a multiplicative trend into an additive trend.
+        
+        * Forcast m periods ahead
+        
+            <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=S_tR_t^m"/>
+        
+* Damped trend smoothing
+
+    For long range (multi-step) forecasts, the trend may continue on unrealistically. Even more extreme are the forcasts generated by the exponential trend method. As such, it can be useful to dampen the trend over time.
+    
+    A damping coefficient &phi; is used to control the rate of dampening.
+    
+    * Additive dampening: dampen a trend linearly
+    
+        <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}y_{t}+(1-\alpha)(S_{t-1}+\{\phi}b_{t-1})"/>&nbsp;
+
+        <img src="https://latex.codecogs.com/svg.latex?b_{t}={\gamma}(S_t-S_{t-1})+(1-\gamma)\{\phi}b_{t-1}"/>&nbsp;
+        
+        <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=S_t+\sum\limits_{i=1}^m\phi^ib_t"/>
+    
+    * Multiplicative dampening: dampen the trend exponentially
+    
+        <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}y_{t}+(1-\alpha)(S_{t-1}R_{t-1}^\phi)"/>&nbsp;
+
+        <img src="https://latex.codecogs.com/svg.latex?R_{t}={\gamma}(S_t/S_{t-1})+(1-\gamma)R_{t-1}^\phi"/>&nbsp;
+        
+        <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=S_tR_t^{\sum\limits_{i=1}^m\phi^i}"/>
+
+* Triple Exponential Smoothing, also called *Holt-Winter Exponential Smoothing*
 
     What happens if the data show trend and seasonality?
 
-    Introduce a third equation to take care of seasonality/periodicity. The resulting set of equation is called the "Holt-Winners"(HW) method after the names of the inventors.
+    Introduce a third equation to take care of seasonality/periodicity. The resulting set of equation is called the "Holt-Winners"(HW) method after the names of the inventors. The seasonality could also be modeled as either additive or multiplicative
 
-    The basic equations are:
+    * Multiplicative seasonality
 
-    <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}\frac{y_t}{I_{t-L}}+(1-\alpha)(S_{t-1}+b_{t-1})"/>&nbsp;
+        <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}\frac{y_t}{I_{t-L}}+(1-\alpha)(S_{t-1}+b_{t-1})"/>&nbsp;
     
-    <img src="https://latex.codecogs.com/svg.latex?b_{t}={\gamma}(S_t-S_{t-1})+(1-\gamma)b_{t-1}"/>&nbsp;
+        <img src="https://latex.codecogs.com/svg.latex?b_{t}={\gamma}(S_t-S_{t-1})+(1-\gamma)b_{t-1}"/>&nbsp;
     
-    <img src="https://latex.codecogs.com/svg.latex?I_{t}={\beta}\frac{y_t}{S_t}+(1-\beta)I_{t-L}"/>&nbsp;
+        <img src="https://latex.codecogs.com/svg.latex?I_{t}={\beta}\frac{y_t}{S_t}+(1-\beta)I_{t-L}"/>&nbsp;
     
-    <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=(S_t+mb_t)I_{t-L+m}"/>
+        <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=(S_t+mb_t)I_{t-L+m}"/>
 
-    where *F* is the forecast at m periods ahead, *I* is the seasonal index, *b* is the trend factor, *S* is the smoothed observation. And &alpha;, &beta;, &gamma; are constants that must be estimated in such a way that the MSE is minimized. L is the number of periods in a complete season's data.
+        where *F* is the forecast at m periods ahead, *I* is the seasonal index, *b* is the trend factor, *S* is the smoothed observation. And &alpha;, &beta;, &gamma; are constants that must be estimated in such a way that the MSE is minimized. L is the number of periods in a complete season's data.
 
-    * Initial values
+        * Initial values
 
-        To initialize the HW method, we need **at least** one complete season's data to determine initial estimates of the seasonal indices I<sub>t-L</sub>. And to estimate the trend factor from one period to the next, it is advisable to use two complete seasons; that is 2L periods.
+            To initialize the HW method, we need **at least** one complete season's data to determine initial estimates of the seasonal indices I<sub>t-L</sub>. And to estimate the trend factor from one period to the next, it is advisable to use two complete seasons; that is 2L periods.
 
         * The general formula to estimate the initial trend is given by
 
             <img src="https://latex.codecogs.com/svg.latex?b=\frac{1}{L}\bigg(\frac{y_{L+1}-y_1}{L}+\frac{y_{L+2}-y_2}{L}+\dots+\frac{y_{L+L}-y_L}{L}\bigg)"/>
-
 
         * Seasonal Indices: 6 years with 4 quarters per year for example
 
@@ -192,8 +227,18 @@ Instead of weighing observations equally, Exponential Smoothing assigns **expone
             <img src="https://latex.codecogs.com/svg.latex?I_3=(y_{13}/A_1+y_{23}/A_2+y_{33}/A_3+y_{43}/A_4+y_{53}/A_5+y_{63}/A_6)"/>
 
             <img src="https://latex.codecogs.com/svg.latex?I_4=(y_{14}/A_1+y_{24}/A_2+y_{34}/A_3+y_{44}/A_4+y_{54}/A_5+y_{64}/A_6)"/>
-
-    **This method is best for data with trend and seasonality that does not increase over time. It results in a curved forecast that shows the seasonal changes in the data**
+            
+    * Additive seasonality
+    
+        <img src="https://latex.codecogs.com/svg.latex?S_{t}={\alpha}(y_t-I_{t-L})+(1-\alpha)(S_{t-1}+b_{t-1})"/>&nbsp;
+    
+        <img src="https://latex.codecogs.com/svg.latex?b_{t}={\gamma}(S_t-S_{t-1})+(1-\gamma)b_{t-1}"/>&nbsp;
+    
+        <img src="https://latex.codecogs.com/svg.latex?I_{t}={\beta}(y_t-S_t)+(1-\beta)I_{t-L}"/>&nbsp;
+    
+        <img src="https://latex.codecogs.com/svg.latex?F_{t+m}=S_t+mb_t+I_{t-L+m}"/>
+        
+        *Similarily, dampening can be apply to this model*
 
 ## Univariate Time Series Models
 
