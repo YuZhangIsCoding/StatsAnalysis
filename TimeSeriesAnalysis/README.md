@@ -409,3 +409,40 @@ A common approach to analyzing unevenly spaced time series is to transform the d
 Python package [Traces](https://traces.readthedocs.io/en/master/) together with Pandas provide some functionalities for the analysis of unevenly spaced time series in their unaltered form.
 
 ## [Loess and Seasonoal loess](https://www.itl.nist.gov/div898/handbook/pmd/section1/pmd144.htm)
+
+Locally estimated scatterplot smoothing (LOESS) and locally weighted scatterplot smoothing (LOWESS) is a method for fitting a smooth curve between two variables, for fitting a smooth surface between an outcome and up to four predictor variables.
+
+LOESS combines much of the simplicity of linear least squares regression with the flexibility of nonlinear regression.
+
+The smoothing parameter &alpha; is the fraction of the total number *n* of data points that are used in each local fit. Since a polynomial of degree k requires at least (k+1) points for a fit, the smoothing parameter &alpha;  must be between (&lambda;+1)/n and 1, with &lambda; denoting the degree of the local polynomial.
+
+* &alpha; controls the flexibility of the LOWESS regression function. 
+
+    * If &alpha; is too large, the regression will be over-smoothed, resulting in a loss of information, hence a large bias.
+    * If the &alpha; is too small, there will be insufficient data for an accurate fit, resulting in a large variance.
+
+* Degree of local polynomial
+
+    First or second degree is used most often. Using a zero degree polynomial turns LOESS into a weighted moving average. High-degree polynomials would tend to overfit the data in each subset and are numerically unstable, making accurate computations difficult.
+
+* Weight function
+
+    The polynomial is fitted using weighted least squares, giving more weight to points near the point whose response is being estimated and less weight to points further away.
+
+    The traditional weight function used for LOESS is the tri-cube weight function
+
+    <img src="http:www.codecogs.com/svg.latex?w(x)=\big(1-|d|^3\big)^3"/>
+
+    where d is the distance of a given data point from the point on the curve being fitted, scaled to lie in the range between 0 to 1.
+
+* Advantages
+
+    * Do not need the specification of a function to fit a model. Only need the smoothing parameter and degree of local polynomial.
+    * Flexible, making it ideal for modeling complex processes for which no theoretical models exist.
+    * Simplicity of the method.
+
+* Disadvantages
+
+    * Less efficient use of data than other least squares methods.
+    * The regression function not easily represented by mathematical formula, making it difficult to transfer the results to others.
+    * Computationally intensive.
