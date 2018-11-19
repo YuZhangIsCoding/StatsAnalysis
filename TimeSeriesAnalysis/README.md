@@ -1,6 +1,6 @@
 # Time Series Analysis 
 
-This is a repo constructed for the study of Time Series Analysis. Thanks to [NIST](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm) and some other online sources. All theories parts will be put in this markdown file, and some other examples will be illustrated in the jupyter notebook.
+This is a repo constructed for the study of Time Series Analysis. Thanks to [NIST](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc4.htm) and some other online sources. All theories parts will be put in this markdown file, and some other [examples](https://github.com/YuZhangIsCoding/StatsBasics/tree/master/TimeSeriesAnalysis/examples) will illustrate how to conduct time series analysis in python and R.
 
 ## Time Series Analysis
     
@@ -98,7 +98,7 @@ Instead of weighing observations equally, Exponential Smoothing assigns **expone
 
         <img src="https://latex.codecogs.com/svg.latex?S_{t+1}={\alpha}y_{origin}+(1-\alpha)S_t"/>
 
-        where y<sub>origin</sub> remain constatnt.
+        where y<sub>origin</sub> remain constant.
 
     **This method, which results in a straight, flat-line forecast is best for volatile data with no trend or seasonality. The single coefficient &alpha; is not enough**
 
